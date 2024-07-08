@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./TodoList.css";
 
 const TodoList = () => {
@@ -56,47 +56,49 @@ const TodoList = () => {
 	};
 
 	return (
-		<div>
-			<Helmet>
-				<title>Todo App</title>
-			</Helmet>
-			<h1>Todo List</h1>
-			{alertMessage && <div className="alert">{alertMessage}</div>}
-			<div className="todo-form">
-				<input
-					type="text"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-					placeholder="Enter new task"
-				/>
-				<button onClick={addTodo}>Add Todo</button>
+		<HelmetProvider>
+			<div>
+				<Helmet>
+					<title>Todo App</title>
+				</Helmet>
+				<h1>Todo List</h1>
+				{alertMessage && <div className="alert">{alertMessage}</div>}
+				<div className="todo-form">
+					<input
+						type="text"
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
+						placeholder="Enter new task"
+					/>
+					<button onClick={addTodo}>Add Todo</button>
+				</div>
+				{todos.length === 0 ? (
+					<p>No available tasks. Create new task.</p>
+				) : (
+					<ul>
+						{todos.map((todo) => (
+							<li key={todo.id}>
+								<span
+									style={{
+										textDecoration: todo.completed
+											? "line-through"
+											: "none",
+									}}
+									onClick={() =>
+										toggleTodo(todo.id, todo.completed)
+									}
+								>
+									{todo.title}
+								</span>
+								<button onClick={() => deleteTodo(todo.id)}>
+									Delete
+								</button>
+							</li>
+						))}
+					</ul>
+				)}
 			</div>
-			{todos.length === 0 ? (
-				<p>No available tasks. Create new task.</p>
-			) : (
-				<ul>
-					{todos.map((todo) => (
-						<li key={todo.id}>
-							<span
-								style={{
-									textDecoration: todo.completed
-										? "line-through"
-										: "none",
-								}}
-								onClick={() =>
-									toggleTodo(todo.id, todo.completed)
-								}
-							>
-								{todo.title}
-							</span>
-							<button onClick={() => deleteTodo(todo.id)}>
-								Delete
-							</button>
-						</li>
-					))}
-				</ul>
-			)}
-		</div>
+		</HelmetProvider>
 	);
 };
 
