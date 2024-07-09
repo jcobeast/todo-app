@@ -61,7 +61,10 @@ const TodoList = () => {
 				<Helmet>
 					<title>Todo App</title>
 				</Helmet>
-				<h1>Todo List</h1>
+				<div className="todo-title">
+					<h1>Todo List</h1>
+				</div>
+
 				{alertMessage && <div className="alert">{alertMessage}</div>}
 				<div className="todo-form">
 					<input
@@ -73,7 +76,7 @@ const TodoList = () => {
 					<button onClick={addTodo}>Add Todo</button>
 				</div>
 				{todos.length === 0 ? (
-					<p>No available tasks. Create new task.</p>
+					<p>No available tasks.</p>
 				) : (
 					<ul>
 						{todos.map((todo) => (
